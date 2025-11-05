@@ -14,6 +14,11 @@ function bubblesort(array){
         return array;
     }
 
+
+function randint(a, b){
+    return Math.floor(Math.random() * (b-a)) + a
+}
+
 function dilnik(num){
     let array = new Int32Array(num / 2);
     let index = 0;
@@ -47,29 +52,29 @@ function dilniki(num, num2){
 
     return dilnik;
 }
-function third(array){
-    let dodatnih = 0, videmnih = 0, nuliv = 0, parni = 0, neparni = 0;
-    for (let i = 0; i < array.length; i++){
-        if (array[i] % 2 == 0){
-            parni++;
-        }
-        if (array[i] % 2 != 0){
-            neparni++;
-        }
-        if(array[i] > 0){
-            dodatnih++;
-        }
-        if(array[i] < 0){
-            videmnih++;
-        }
-        if(array[i] == 0){
-            nuliv++;
-        }
-    }
-    alert(`Додатніх:${dodatnih}\nВід'емніх:${videmnih}\nНулів:${nuliv}\nПарні:${parni}\nНепарні:${neparni}`);
+// function third(array){
+//     let dodatnih = 0, videmnih = 0, nuliv = 0, parni = 0, neparni = 0;
+//     for (let i = 0; i < array.length; i++){
+//         if (array[i] % 2 == 0){
+//             parni++;
+//         }
+//         if (array[i] % 2 != 0){
+//             neparni++;
+//         }
+//         if(array[i] > 0){
+//             dodatnih++;
+//         }
+//         if(array[i] < 0){
+//             videmnih++;
+//         }
+//         if(array[i] == 0){
+//             nuliv++;
+//         }
+//     }
+//     alert(`Додатніх:${dodatnih}\nВід'емніх:${videmnih}\nНулів:${nuliv}\nПарні:${parni}\nНепарні:${neparni}`);
 
 
-}
+// }
 
 function fourQuestion(){
     let botDiapozon = 0;
@@ -130,10 +135,80 @@ function chooseGame(index){
 
 
 function main(){
-    let c = prompt(`Введіть номер завдання:`, "")
-    if (c !== undefined && c !== null)
-        chooseGame(parseInt(c, 10));
+    // let c = prompt(`Введіть номер завдання:`, "")
+    // if (c !== undefined && c !== null)
+    //     chooseGame(parseInt(c, 10));
+
+    // print(rectangle);
+    // alert(shirina(rectangle));
+    // alert(visota(rectangle));
+    // alert(square(rectangle));
+    // alert(perimeter(rectangle));
+
+
+    fArray = new Array();
+    sArray = new Array();
+    for(let i = 0; i < 5; i++){
+        fArray.push(randint(1, 10))
+    }
+    for(let i = 0; i < 5; i++){
+        sArray.push(randint(1, 10))
+    }
+    console.log(fArray)
+    console.log(sArray)
+
+    console.log(first(fArray, sArray))
+    console.log(seccond(fArray, sArray))
+    console.log(third(fArray, sArray))
+
+    document.getElementById("div24").textContent += (first(fArray, sArray))
+
 }
+
+function first(fArray, sArray){
+    array = new Array();
+
+    for (let i = 0; i < fArray.length; i++){
+        if(array.find((element) => element == fArray[i]) === undefined){
+            array.push(fArray[i])
+        }
+    }
+    for (let i = 0; i < sArray.length; i++){
+        if(array.find((element) => element == sArray[i]) === undefined){
+            array.push(sArray[i])
+        }
+    }
+
+    return array;
+
+}
+
+function seccond(fArray, sArray){
+    array = new Array();
+
+    for (let i = 0; i < fArray.length; i++){
+        if(sArray.find((element) => element == fArray[i]) !== undefined && array.find((element) => element == fArray[i]) === undefined){
+            array.push(fArray[i])
+        }
+    }
+
+    return array;
+
+}
+
+function third(fArray, sArray){
+    array = new Array();
+
+    for (let i = 0; i < fArray.length; i++){
+        if(sArray.find((element) => element == fArray[i]) === undefined ){
+            array.push(fArray[i])
+        }
+    }
+
+    return array;
+
+}
+
 
 
 
@@ -158,6 +233,7 @@ function square(rectangle){
 function perimeter(rectangle){
     return 2 * shirina(rectangle) + 2 * visota(rectangle);
 }
+
 
 
 

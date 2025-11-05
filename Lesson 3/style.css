@@ -11,11 +11,12 @@ body{
 button{
     padding: 15px;
     border-radius: 10px;
-    border-color: orange;
-    background-color: coral;
+    border-color: brown;
+    background-color: brown;
 }
 button:hover{
-    background-color: rgb(255, 153, 0);
+    border-color:rgb(199, 63, 14);
+    background-color:rgb(199, 63, 14);
 }
 
 
