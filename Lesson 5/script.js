@@ -196,25 +196,35 @@ function NextColor(){
 }
 
 function Generate(){
-    let inputMonth = document.getElementById("month");
-    let inputYear = document.getElementById("year");
+    let inputMonth = parseInt(document.getElementById("month").value) ;
+    let inputYear = document.getElementById("year").value;
     
-    console.log(inputMonth.value)
-    console.log(inputYear.value)
+    console.log(inputMonth)
+    console.log(inputYear)
     let currentRow = 0;
     let currentCol = 0;
+    let day = 1;
+    let start = false;
     let row = null;
+    let dayInMonth = new Date(parseInt(inputYear), parseInt(inputMonth) + 1, 0).getDate();
     let table = document.querySelector("table");
-    let date = new Date(parseInt(inputYear.value), parseInt(inputMonth.value), 31)
+    let date = new Date(parseInt(inputYear), parseInt(inputMonth))
     console.log(date);
     console.log(date.getDay());
+    console.log(dayInMonth);
 
-    for(let j = 0; j < 16; j++){
+    for(let j = 0; j < dayInMonth + date.getDay(); j++){
         if (currentCol == 0){
             row = document.createElement("tr")
             table.append(row)
         }
-        row.append(document.createElement("td"))
+        let a = document.createElement("td");
+        if (start || currentCol > date.getDay() - 1){
+            a.textContent = day++;
+            start = true;
+        }
+        row.append(a)
+        console.log(currentCol);
         currentCol++
         if(currentCol >= 7){
             currentCol = 0;
