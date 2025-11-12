@@ -1,0 +1,194 @@
+body{
+    margin-left: 20%;
+    margin-right: 20%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size:cover;
+    background-image: url(https://kartinki.pics/uploads/posts/2021-04/1617573903_25-p-polnostyu-chernii-fon-30.jpg)
+}
+
+table td{
+    width: 100px;
+    height: 100px;
+    border: 1px solid black;
+}
+
+#div24 span{
+    display:block;
+}
+
+div.circle{
+    height: 200px;
+    transition-duration: 500ms;
+    width: 200px;
+    border-radius: 100px;
+    background-color: gray;
+    display: inline-block;
+    margin: 20px;
+}
+
+div.activeGreen{
+    transition-duration: 500ms;
+    background-color: green !important;
+}
+div.activeYellow{
+    transition-duration: 500ms;
+    background-color: Yellow !important;
+}
+div.activeRed{
+    transition-duration: 500ms;
+    background-color: red !important;
+}
+
+.DivWithCircle{
+    display: flex;
+    justify-content: center;
+    
+}
+
+input{
+    padding: 15px;
+    border-radius: 10px;
+    border-color: brown;
+}
+
+
+button{
+    padding: 15px;
+    border-radius: 10px;
+    border-color: brown;
+    background-color: brown;
+}
+
+button:hover{
+    border-color:rgb(199, 63, 14);
+    background-color:rgb(199, 63, 14);
+}
+
+
+#max_div{
+    min-height: calc(100vh - 48px);
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+}
+
+img{
+    width: 60%;
+}
+
+.center{
+    text-align: center;
+}
+
+#button{
+    height: 50px;
+    width: 50px;
+    background-color: white;
+    box-shadow: 2px;
+    border-radius: 10px;
+    font-size: 40px;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
+#RNDNumber{
+    text-align: center;
+    font-size: 15ch;
+}
+
+
+
+
+#rick_roll{
+color: orange;
+}
+
+.second{
+    color: green;
+}
+
+.third{
+    color: blue;
+}
+
+strong{
+    color: black;
+}
+
+.ul_list{
+    list-style-type: none;
+    list-style-position: inside;
+    padding-left: 15px;  
+}
+
+.top5{
+    text-align: left;
+}
+
+ul.ul_list li::before{
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-size: contain;
+    margin-right: 0;
+}
+
+ul.first li::before{
+    content: ">";
+}
+
+ul.spring li::before{
+    content: "🌷";
+    margin-right: 7px;
+    padding-left: 10px;
+}
+
+ul.outumn li::before{
+    content: "🍁";
+    margin-right: 7px;
+    padding-left: 10px;
+}
+
+ul.summer li::before{
+    content: "🍉";
+    margin-right: 7px;
+    padding-left: 10px;
+}
+
+ul.winter li::before{
+    content: "❄️";
+    margin-right: 7px;
+    padding-left: 10px;
+}
+
+ul.menu{
+    list-style-type: none;
+    padding: 0;
+}
+
+ul.menu li{
+    display: inline-block;
+    background-color: brown;
+    color: white;
+    padding: 10px;
+    text-transform: uppercase;
+}
+
+ul.menu li:hover{
+    background-color: coral;
+}
+
+
+/*
+ul.ul_list li:nth-child(2n){
+    color: #696969;
+}
+
+ul.ul_list li:nth-child(odd){
+    color: coral;
+}
+*/
