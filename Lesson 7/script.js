@@ -61,7 +61,7 @@ function updateRGB(){
 
 document.addEventListener("DOMContentLoaded", ()=>{
     let theme = localStorage.getItem("darkTheme")
-    console.log(theme);
+    console.log("theme: " + theme);
     if(theme != null && theme == "true"){
         document.querySelector("input#themeSwitch").setAttribute("checked", true)
         document.querySelector("#max_div").classList.add("theme-dark")
@@ -73,6 +73,44 @@ document.addEventListener("DOMContentLoaded", ()=>{
         progressBar.value = (progressBar.value + 0.1) % 1
     })
 
+    let colorID = 0;
+
+    
+    let colors = localStorage.getItem("colors")
+    console.log("colors: " + colors)
+    colors = colors === null ? [] : colors.split("\n")
+    colors.forEach(item => {
+        let form = document.querySelector("form#textForm");
+        let colorBox = document.querySelector("div#colorBox");
+        let colorPicker = form.querySelector("input[type=color]")
+        console.log("Yes!")
+        let element = document.createElement("article")
+        let a = document.createElement("div");
+        a.style.backgroundColor = item
+        element.append(a)
+        let b = document.createElement("span")
+        b.textContent = item;
+         let div = document.createElement("div")
+        let button = document.createElement("button")
+        button.id = "a" + colorID++;
+        div.style.display = "flex";
+        div.style.width = "100%";
+        div.style.justifyContent = "flex-end";
+
+        button.addEventListener("click", event =>{
+            let id = button.id;
+            document.querySelector(`#${id}`).parentElement.parentElement.remove();
+            colors.splice(id, 1)
+            localStorage.setItem("colors", 
+                colors.join("\n")
+            )
+        })
+        div.append(button);
+        element.append(b)
+        element.append(div);
+        colorBox.append(element)
+
+    });
     document.querySelector("form#textForm").addEventListener("submit", (event) => {
         event.preventDefault()
         let form = document.querySelector("form#textForm");
@@ -85,7 +123,31 @@ document.addEventListener("DOMContentLoaded", ()=>{
         element.append(a)
         let b = document.createElement("span")
         b.textContent = colorPicker.value;
+        let div = document.createElement("div")
+        let button = document.createElement("button")
+        button.id = "a" + colorID++;
+        div.style.display = "flex";
+        div.style.width = "100%";
+        div.style.justifyContent = "flex-end";
+
+        button.addEventListener("click", event =>{
+            let id = button.id;
+            document.querySelector(`#${id}`).parentElement.parentElement.remove();
+            colors.splice(id, 1)
+            localStorage.setItem("colors", 
+                colors.join("\n")
+            )
+
+        })
+        div.append(button);
+        
+        colors.push(colorPicker.value)
+        localStorage.setItem("colors", 
+                colors.join("\n")
+            )
+
         element.append(b)
+        element.append(div);
         colorBox.append(element)
     })
 
@@ -110,30 +172,32 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
         localStorage.setItem("darkTheme", darkTheme)
     })
-    let strings = localStorage.getItem("strings")
-    console.log("strings: " + strings)
-    strings = strings === null ? [] : strings.split("\n")
-    strings.forEach(item => {
-        let p = document.createElement("p")
-        p.textContent = item
-        document.querySelector("div#strings").append(p)
-    });
 
-    document.querySelector("form#stringsForm")
-    .addEventListener("submit", (event) =>{
-        event.preventDefault()
-        let form = event.target
-        let str = form.querySelector("input[type=text]").value
-        if(str){
-            let p = document.createElement("p")
-            p.textContent = str
-            document.querySelector("div#strings").append(p)
-            strings.push(str)
-            localStorage.setItem("strings", 
-                strings.join("\n")
-            )
-        }
-    })
+
+    // let strings = localStorage.getItem("strings")
+    // console.log("strings: " + strings)
+    // strings = strings === null ? [] : strings.split("\n")
+    // strings.forEach(item => {
+    //     let p = document.createElement("p")
+    //     p.textContent = item
+    //     document.querySelector("div#strings").append(p)
+    // });
+
+    // document.querySelector("form#stringsForm")
+    // .addEventListener("submit", (event) =>{
+    //     event.preventDefault()
+    //     let form = event.target
+    //     let str = form.querySelector("input[type=text]").value
+    //     if(str){
+    //         let p = document.createElement("p")
+    //         p.textContent = str
+    //         document.querySelector("div#strings").append(p)
+    //         strings.push(str)
+    //         localStorage.setItem("strings", 
+    //             strings.join("\n")
+    //         )
+    //     }
+    // })
 
 })
 
@@ -226,27 +290,71 @@ function main(){
         }
     }
     if(selected == 6){
-        let text = parseInt(prompt("number:"));
+        let text = parseInt(prompt("USD:"));
         console.log(text)
+        let text2 = prompt("What you choose(EUR, UAH, PLN):");
+        let kurs = [0.87, 42.1, 3.67]
+        if (text2 == "EUR" || text2 == 1)
+            alert(`${text * kurs[0]} Eurs`)
+        if (text2 == "UAH" || text2 == 2)
+            alert(`${text * kurs[1]} Uahs`)
+        if (text2 == "PLN" || text2 == 3)
+            alert(`${text * kurs[2]} Plns`)
     }
     if(selected == 7){
-        let text = parseInt(prompt("number:"));
-        console.log(text)
+        let sum = parseInt(prompt("Sum:"));
+        console.log(sum)
+
+        if(sum > 200 && sum < 300){
+            alert(`${sum - ((sum / 100)* 3)}`)
+        }
+        else if(sum >= 300 && sum < 500){
+            alert(`${sum - ((sum / 100)* 5)}`)
+        }
+        else if(sum >= 500){
+            alert(`${sum - ((sum / 100)* 7)}`)
+        }
+        else{
+            alert(sum)
+        }
     }
     if(selected == 8){
-        let text = parseInt(prompt("number:"));
+        let text = prompt("C, P:");
         console.log(text)
+        let array = [];
+        for (let i = 0; i < 2; i++){
+            array[i] = parseInt(text.split(" ")[i])
+        }
+        if(array[0] / (Math.PI * 2) < array[1] / 8)
+            alert("True")
+        else
+            alert("False")
+
     }
     if(selected == 9){
-        let text = parseInt(prompt("number:"));
+        let score = 0;
+        let text = parseInt(prompt("First Question(1. yes, 2. no, 3.maybe):"));
+        if (text == 3)
+            score += 2;
+        let text1 = parseInt(prompt("Seccond Question(1. yes, 2. no, 3.maybe):"))
+        if (text1 == 1)
+            score += 2;
+        let text2 = parseInt(prompt("Third Question(1. yes, 2. no, 3.maybe):"))
+        if (text2 == 2)
+            score += 2;
         console.log(text)
+        alert("Your score: " + score)
     }
     if(selected == 10){
-        let text = parseInt(prompt("number:"));
+        let text = prompt("Date:");
         console.log(text)
+        let array =[];
+        for (let i = 0; i < 3; i++){
+            array[i] = parseInt(text.split(" ")[i])
+        }
+        console.log(array)
+        let date = new Date(array[0], array[1], array[2] + 1)
+        alert(date);
+
     }
-
-
-
-
 }
