@@ -8,6 +8,26 @@ body{
     background-image: url(https://kartinki.pics/uploads/posts/2021-04/1617573903_25-p-polnostyu-chernii-fon-30.jpg)
 }
 
+div#shopGenDiv{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+div.foto{
+    width: 200px;
+    height: 200px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+
+
+
+
+
+
 div#colorBox{
     display: flex;
     flex-wrap: wrap;

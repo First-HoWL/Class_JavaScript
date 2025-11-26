@@ -74,6 +74,12 @@ function updateRGB(){
     ColorB.value = val.b;
 }
 
+function deleteCookie(name) {
+  setCookie(name, "", {
+    'max-age': -1
+  })
+}
+
 function getCookie(name) {
   let matches = document.cookie.match(new RegExp(
     "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
@@ -119,47 +125,58 @@ document.addEventListener("DOMContentLoaded", ()=>{
     }
 
     
+    products.forEach(item => {
+        let shopGenDiv = document.querySelector("div#shopGenDiv")
+        let div = document.createElement("div")
+        let img = document.createElement("div")
+        img.style.backgroundImage = `url(${item.foto})`
+        img.classList.add("foto")
+        let name = document.createElement("span")
+        name.textContent = item.name
+        let price = document.createElement("span")
+        price.textContent = item.price
 
-
-
-
-
-    let login = getCookie("loginPassword")
-    console.log(login)
-    if (login !== null && login != "null" && login !== undefined){
-        login = JSON.parse(login)
-        console.log(login)
-        document.querySelector("p#pKnows").textContent += login.login
-        document.querySelector("div#divKnows").style.display = "block"
-        document.querySelector("form#loginForm").style.display = "none"
-    }
-
-    document.querySelector("button#signOut").addEventListener("click", (event) => {
-        setCookie("loginPassword", null)
-        location.reload();
-    })
-    
-    //var text = "";
-
-    document.querySelector("form#loginForm").addEventListener("submit", async (event) => {
-        event.preventDefault()
-        let passw = await digestMessage(document.querySelector("input#password").value).then((a) => {return a});
-        // (async () => {
-        // }) ();
-
+        div.append(img, name, price)
         
-        console.log(passw)
-        //console.log(text)
-        let user = {
-            login: document.querySelector("input#login").value,
-            password: passw
-        }
-        if(document.querySelector("input#rememberme").checked == true){
-            setCookie("loginPassword", JSON.stringify(user), {'max-age': 3600})
-        }
-        // event.target.submit()
+        shopGenDiv.append(div)
 
     })
+
+
+
+
+
+    // let login = getCookie("loginPassword")
+    // console.log(login)
+    // if (login !== null && login != "null" && login !== undefined){
+    //     login = JSON.parse(login)
+    //     console.log(login)
+    //     document.querySelector("p#pKnows").textContent += login.login
+    //     document.querySelector("div#divKnows").style.display = "block"
+    //     document.querySelector("form#loginForm").style.display = "none"
+    // }
+
+    // document.querySelector("button#signOut").addEventListener("click", (event) => {
+    //     deleteCookie("loginPassword")
+    //     location.reload();
+    // })
+    
+    // document.querySelector("form#loginForm").addEventListener("submit", async (event) => {
+    //     event.preventDefault()
+    //     let passw = await digestMessage(document.querySelector("input#password").value).then((a) => {return a});
+    //     // (async () => {
+    //     // }) ();
+    //     console.log(passw)
+    //     let user = {
+    //         login: document.querySelector("input#login").value,
+    //         password: passw
+    //     }
+    //     if(document.querySelector("input#rememberme").checked == true){
+    //         setCookie("loginPassword", JSON.stringify(user), {'max-age': 3600})
+    //     }
+    //     event.target.submit()
+
+    // })
 
 
     // let questions = localStorage.getItem("questions")
