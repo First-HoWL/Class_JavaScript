@@ -129,12 +129,42 @@ document.addEventListener("DOMContentLoaded", ()=>{
         let shopGenDiv = document.querySelector("div#shopGenDiv")
         let div = document.createElement("div")
         let img = document.createElement("div")
+        let button = document.createElement("button")
         img.style.backgroundImage = `url(${item.foto})`
         img.classList.add("foto")
         let name = document.createElement("span")
         name.textContent = item.name
         let price = document.createElement("span")
-        price.textContent = item.price
+        price.textContent = item.price + "$"
+        button.id = item.id
+        button.addEventListener("click", (event)=>{
+          let a = products.filter((item) => item.id == event.target.id)
+          console.log(event.target.id)
+          console.log(a)
+          basket.push(a);
+          console.log(basket)
+        })
+
+        div.append(img, name, price, button)
+        
+        shopGenDiv.append(div)
+
+    })
+    
+    document.querySelector("button#basket").addEventListener("click", (event)=>{
+      let shopGenDiv = document.querySelector("div#shopGenDiv")
+      shopGenDiv.style.display = "none"
+
+      basket.forEach(item => {
+        let shopGenDiv = document.querySelector("div#basketGenDiv")
+        let div = document.createElement("div")
+        let img = document.createElement("div")
+        img.style.backgroundImage = `url(${item.foto})`
+        img.classList.add("foto")
+        let name = document.createElement("span")
+        name.textContent = item.name
+        let price = document.createElement("span")
+        price.textContent = item.price + "$"
 
         div.append(img, name, price)
         
@@ -142,6 +172,9 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
     })
 
+
+
+    })
 
 
 

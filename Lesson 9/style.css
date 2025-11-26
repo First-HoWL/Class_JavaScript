@@ -12,6 +12,10 @@ div#shopGenDiv{
     display: flex;
     flex-wrap: wrap;
 }
+div#shopGenDiv > div{
+    display: flex;
+    flex-direction: column;
+}
 
 div.foto{
     width: 200px;
