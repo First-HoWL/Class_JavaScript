@@ -92,6 +92,7 @@ function setCookie(name, value, attributes = {}) {
 }
 
 let films = 0
+
 function showFilmData(filmData){
   console.log(filmData)
   document.querySelector("#filmName").textContent = filmData.title
@@ -156,9 +157,14 @@ document.addEventListener("DOMContentLoaded", ()=>{
         document.querySelector("#max_div").classList.add("theme-dark")
     }
 
-    fetch('https://www.whenisthenextmcufilm.com/api/?date=2025-03-05')
-    .then(response => response.json())
-    .then(filmdata => showFilmData(filmdata))
+    fetch("https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies.json").then(response => response.json()).then(data =>
+      {for(code in data){
+        let option = document.createElement("option")
+      option.textContent = data[code]
+      option.value = code
+      document.querySelector("#countrySelect").append(option)
+      }
+    })
 
 
 

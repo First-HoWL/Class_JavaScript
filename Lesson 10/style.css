@@ -26,7 +26,11 @@ div.foto{
 }
 
 
-
+article{
+    padding: 5px;
+    margin: 5px;
+    background-color: lightgrey;
+}
 
 
 
