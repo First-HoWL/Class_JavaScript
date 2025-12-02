@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
       })
       let i = 0;
       while(CatFacts.children.length > 5){
-        let a = CatFacts.querySelector(`p#d${i++}`)
+        let a = CatFacts.lastChild
         if(a !== null)
           a.remove()
       }

@@ -33,7 +33,10 @@ article{
 }
 
 
-
+div#CatFacts p{
+    background-color: lightgray;
+    padding: 5px;
+}
 
 
 div#colorBox{
