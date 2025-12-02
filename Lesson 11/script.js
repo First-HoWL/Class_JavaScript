@@ -105,29 +105,29 @@ document.addEventListener("DOMContentLoaded", ()=>{
         document.querySelector("#max_div").classList.add("theme-dark")
     }
 
-    setInterval(()=>{
-      // https://meowfacts.herokuapp.com/?count=10&lang=ukr
-      let CatFacts = document.querySelector("div#CatFacts")
-      fetch("https://meowfacts.herokuapp.com/?count=1&lang=ukr")
-      .then(response => response.json())
-      .then(data => {
-        let p = document.createElement("p")
-        let CatFacts = document.querySelector("div#CatFacts")
-        p.id = "d" + id++;
-        p.textContent = data.data
-        CatFacts.prepend(p)
-        console.log(data.data)
-      })
-      let i = 0;
-      while(CatFacts.children.length > 5){
-        let a = CatFacts.lastChild
-        if(a !== null)
-          a.remove()
-      }
-      console.log(CatFacts.children.length)
-      console.log(CatFacts.children)
+    // setInterval(()=>{
+    //   // https://meowfacts.herokuapp.com/?count=10&lang=ukr
+    //   let CatFacts = document.querySelector("div#CatFacts")
+    //   fetch("https://meowfacts.herokuapp.com/?count=1&lang=ukr")
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     let p = document.createElement("p")
+    //     let CatFacts = document.querySelector("div#CatFacts")
+    //     p.id = "d" + id++;
+    //     p.textContent = data.data
+    //     CatFacts.prepend(p)
+    //     console.log(data.data)
+    //   })
+    //   let i = 0;
+    //   while(CatFacts.children.length > 5){
+    //     let a = CatFacts.lastChild
+    //     if(a !== null)
+    //       a.remove()
+    //   }
+    //   console.log(CatFacts.children.length)
+    //   console.log(CatFacts.children)
 
-    }, 5000)
+    // }, 5000)
     
     // fetch("https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies.json").then(response => response.json()).then(data =>
     //   {for(code in data){
@@ -138,7 +138,36 @@ document.addEventListener("DOMContentLoaded", ()=>{
     //   }
     // })
 
+  document.querySelector("button#AddServer").addEventListener("click", (event) =>{
+    let inputVal = document.querySelector("input#IpServer").value
+    if(inputVal.value != ""){
+      // https://api.mcsrvstat.us/3/
 
+      fetch(`https://api.mcsrvstat.us/3/${inputVal}`).then(response => response.json())
+      .then(data =>{
+        console.log(data)
+        let template = document.querySelector("section#Servers>template")
+        let serverBlock = template.content.cloneNode(true)
+        if(data.online == true){
+          serverBlock.querySelector("img").src = data.icon
+          serverBlock.querySelector("span.IP").textContent = data.hostname +"(" + data.ip + ")"
+          serverBlock.querySelector("p").innerHTML = data.motd.html == undefined ? "" : data.motd.html
+          serverBlock.querySelector("span.online").textContent = data.players.online + "/" + data.players.max
+          serverBlock.querySelector("span.isOnline").textContent = data.online == true ? "online" : "offline"
+        }
+        else{
+          serverBlock.querySelector("img").src = "offline.bmp"
+          serverBlock.querySelector("span.IP").textContent = data.hostname +"(" + data.ip + ")"
+          //serverBlock.querySelector("p").innerHTML = data.motd.html == undefined ? "" : data.motd.html
+          //serverBlock.querySelector("span.online").textContent = data.players.online + "/" + data.players.max
+          serverBlock.querySelector("span.isOnline").textContent = data.online == true ? "online" : "offline"
+        
+        }
+        document.querySelector("section#Servers").prepend(serverBlock)
+       })
+
+    }
+  })
 
 
 
