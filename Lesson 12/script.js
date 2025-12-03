@@ -102,7 +102,9 @@ function Update(updBatton){
         button.id = item.id
         button.textContent = "Delete"
         button.addEventListener("click", (event)=>{
-          basket = JSON.parse(getCookie("cart"))
+          let a1 = getCookie("cart") === undefined ? "{}" : getCookie("cart")
+
+          let cart = JSON.parse(a1)
           let a = products.filter((item) => item.id == event.target.id)[0]
           let b = basket.filter((item) => item.id == event.target.id)[0]
           console.log("id: " + event.target.id)
@@ -138,7 +140,14 @@ function onStart(){
     shopGenDiv.querySelectorAll("div").forEach((item)=>{
         item.remove()
     })
-    basket = JSON.parse(getCookie("cart"))
+    try{
+    let a = getCookie("cart")
+    basket = JSON.parse(a)
+
+    }
+    catch{
+      basket = []
+    }
 
     products.forEach((item) =>{
         let shopGenDiv = document.querySelector("div#shopGenDiv")
@@ -155,12 +164,27 @@ function onStart(){
         button.classList.add("buy") 
         button.textContent = "Buy"
         button.addEventListener("click", (event)=>{
-          basket = JSON.parse(getCookie("cart"))
+          try{
+          let a = getCookie("cart")
+          basket = JSON.parse(a)
+
+          }
+          catch{
+            basket = []
+          }
           let a = products.filter((item) => item.id == event.target.id)[0]
-          let b = basket.filter((item) => item.id == event.target.id)[0]
+          console.log(basket)
+          let b = []
+          try{
+            b = basket.filter((item) => item.id == event.target.id)[0]
+          }
+          catch{
+            b = null
+          }
           console.log(event.target.id)
           console.log(a)
           console.log(b)
+          console.log(basket)
 
           if(b === null || b === undefined){
               let product = {
@@ -193,7 +217,9 @@ function onStart(){
 
 function getCartTotal(){
   try{
-    let cart = JSON.parse(getCookie("cart"))
+    let a = getCookie("cart") === undefined ? "{}" : getCookie("cart")
+
+    let cart = JSON.parse(a)
     let total = 0;
     cart.forEach(product =>{
       total += product.price * product.quantity
@@ -283,7 +309,9 @@ document.addEventListener("DOMContentLoaded", ()=>{
   // })
 
   setInterval(()=>{
-    let cart = JSON.parse(getCookie("cart"))
+    let a = getCookie("cart") === undefined ? "{}" : getCookie("cart")
+
+    let cart = JSON.parse(a)
     //basket = JSON.parse(getCookie("cart"))
     if(JSON.stringify(cart) != JSON.stringify(basket)){
       
@@ -304,6 +332,9 @@ document.addEventListener("DOMContentLoaded", ()=>{
   }, 5000)
 
 
+  let a = getCookie("cart") === undefined ? "{}" : getCookie("cart")
+
+    let cart = JSON.parse(a)
 
   getCartTotal()
 
