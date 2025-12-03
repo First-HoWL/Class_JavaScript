@@ -60,179 +60,40 @@ function setCookie(name, value, attributes = {}) {
   document.cookie = updatedCookie;
 }
 
+// let deck
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var IsBasketOpened = false
-
-
-
-function Update(updBatton){
-    let shopGenDiv = document.querySelector("div#shopGenDiv")
-    shopGenDiv.querySelectorAll("div").forEach((item)=>{
-        item.remove()
-    })
-    basket.forEach((item) =>{
-        let shopGenDiv = document.querySelector("div#shopGenDiv")
-        let div = document.createElement("div")
-        let img = document.createElement("div")
-        let button = document.createElement("button")
-        img.style.backgroundImage = `url(${item.foto})`
-        img.classList.add("foto")
-        let name = document.createElement("span")
-        name.textContent = item.name
-        let quantity = document.createElement("span")
-        quantity.textContent = item.quantity + "pcs"
-        let price = document.createElement("span")
-        price.textContent = item.price + "$"
-
-        button.id = item.id
-        button.textContent = "Delete"
-        button.addEventListener("click", (event)=>{
-          let a1 = getCookie("cart") === undefined ? "{}" : getCookie("cart")
-
-          let cart = JSON.parse(a1)
-          let a = products.filter((item) => item.id == event.target.id)[0]
-          let b = basket.filter((item) => item.id == event.target.id)[0]
-          console.log("id: " + event.target.id)
-          console.log("obj: " + a)
-          if(parseInt(b.quantity) <= 1){
-              let c = basket.indexOf(b)
-              basket.splice(c, 1)
-          }
-          else{
-              b.quantity -= 1
-          }
-          setCookie("cart", JSON.stringify(basket), {"max-age":86000})
-          getCartTotal()
-          Update(false)
-        })
-
-        div.append(img, name, quantity, price, button)
-        
-        shopGenDiv.append(div)
-        IsBasketOpened = true
-    })
-    if(updBatton){
-        document.querySelector("button#basket").removeEventListener("click", () => Update(true))
-        document.querySelector("button#basket").addEventListener("click", () => onStart()) 
-        IsBasketOpened = true
-    }
+async function CreateNewDeck(){
+  return fetch("https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1")
+  .then(response => response.json())
 
 }
 
+async function getDeck(){
+  let deck = localStorage.getItem("deck")
+  if(deck === null){  
+    let newDeck = await CreateNewDeck()
+    localStorage.setItem("deck", JSON.stringify(deck))
+    
+  }
+  else {
+    deck = JSON.parse(deck)
+  }
+  return deck
 
-function onStart(){
-    let shopGenDiv = document.querySelector("div#shopGenDiv")
-    shopGenDiv.querySelectorAll("div").forEach((item)=>{
-        item.remove()
-    })
-    try{
-    let a = getCookie("cart")
-    basket = JSON.parse(a)
-
-    }
-    catch{
-      basket = []
-    }
-
-    products.forEach((item) =>{
-        let shopGenDiv = document.querySelector("div#shopGenDiv")
-        let div = document.createElement("div")
-        let img = document.createElement("div")
-        let button = document.createElement("button")
-        img.style.backgroundImage = `url(${item.foto})`
-        img.classList.add("foto")
-        let name = document.createElement("span")
-        name.textContent = item.name
-        let price = document.createElement("span")
-        price.textContent = item.price + "$"
-        button.id = item.id
-        button.classList.add("buy") 
-        button.textContent = "Buy"
-        button.addEventListener("click", (event)=>{
-          try{
-          let a = getCookie("cart")
-          basket = JSON.parse(a)
-
-          }
-          catch{
-            basket = []
-          }
-          let a = products.filter((item) => item.id == event.target.id)[0]
-          console.log(basket)
-          let b = []
-          try{
-            b = basket.filter((item) => item.id == event.target.id)[0]
-          }
-          catch{
-            b = null
-          }
-          console.log(event.target.id)
-          console.log(a)
-          console.log(b)
-          console.log(basket)
-
-          if(b === null || b === undefined){
-              let product = {
-                  id: a.id,
-                  price: a.price,
-                  name: a.name,
-                  foto: a.foto,
-                  quantity: a.quantity, 
-              }
-              basket.push(product)
-          }
-          else{
-              b.quantity += 1
-          }
-          setCookie("cart", JSON.stringify(basket), {"max-age":86000})
-
-          console.log(basket)
-          getCartTotal()
-        })
-
-        div.append(img, name, price, button)
-        
-        shopGenDiv.append(div)
-        
-    })
-    document.querySelector("button#basket").removeEventListener("click", () => onStart())
-    document.querySelector("button#basket").addEventListener("click", () => Update(true))
-    IsBasketOpened = false
 }
 
-function getCartTotal(){
-  try{
-    let a = getCookie("cart") === undefined ? "{}" : getCookie("cart")
+async function drawCards(deck, count = 1) {
+  let response = await fetch(`https://deckofcardsapi.com/api/deck/${deck.deck_id}/draw/?count=${count}`)
+  
+  response = await response.json()
+  return response.cards
+}
 
-    let cart = JSON.parse(a)
-    let total = 0;
-    cart.forEach(product =>{
-      total += product.price * product.quantity
-    })
-    document.querySelector("span.cart-total").textContent = total + "$"
-  }
-  catch{
-    console.log()
-    document.querySelector("span.cart-total").textContent = 0 + "$"
-  }
+async function shuffleDeck(deck) {
+  let response = await fetch(`https://deckofcardsapi.com/api/deck/${deck.deck_id}/shuffle/`)
   
 }
-
 
 
 let id = 0;
@@ -243,103 +104,35 @@ document.addEventListener("DOMContentLoaded", ()=>{
         document.querySelector("input#themeSwitch").setAttribute("checked", true)
         document.querySelector("#max_div").classList.add("theme-dark")
     }
-
-    // setInterval(()=>{
-    //   // https://meowfacts.herokuapp.com/?count=10&lang=ukr
-    //   let CatFacts = document.querySelector("div#CatFacts")
-    //   fetch("https://meowfacts.herokuapp.com/?count=1&lang=ukr")
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     let p = document.createElement("p")
-    //     let CatFacts = document.querySelector("div#CatFacts")
-    //     p.id = "d" + id++;
-    //     p.textContent = data.data
-    //     CatFacts.prepend(p)
-    //     console.log(data.data)
-    //   })
-    //   let i = 0;
-    //   while(CatFacts.children.length > 5){
-    //     let a = CatFacts.lastChild
-    //     if(a !== null)
-    //       a.remove()
-    //   }
-    //   console.log(CatFacts.children.length)
-    //   console.log(CatFacts.children)
-
-    // }, 5000)
+    //localStorage.removeItem("deck")
     
-    // fetch("https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies.json").then(response => response.json()).then(data =>
-    //   {for(code in data){
-    //     let option = document.createElement("option")
-    //   option.textContent = data[code]
-    //   option.value = code
-    //   document.querySelector("#countrySelect").append(option)
-    //   }
-    // })
+    getDeck()
+    .then(deck => {
+      console.log(deck)
+      shuffleDeck(deck).then(()=>{
+        document.getElementById("drawCard").disabled = false
+        document.getElementById("drawCard").addEventListener("click", (event)=>{
+          document.getElementById("drawCard").disabled = true
+          getDeck().then(deck => {
+            
+            drawCards(deck, 1).then(cards =>{
+          
+              let img = document.createElement("img")
+              console.log(cards[0])
+              console.log(cards[0].image)
+              img.src = cards[0].image
+              document.querySelector("div.cards").append(img)
+              document.getElementById("drawCard").disabled = false
+            })
+          })
+        })
 
-  // document.querySelector("button#AddServer").addEventListener("click", (event) =>{
-  //   let inputVal = document.querySelector("input#IpServer").value
-  //   if(inputVal.value != ""){
-  //     // https://api.mcsrvstat.us/3/
-
-  //     fetch(`https://api.mcsrvstat.us/3/${inputVal}`).then(response => response.json())
-  //     .then(data =>{
-  //       console.log(data)
-  //       let template = document.querySelector("section#Servers>template")
-  //       let serverBlock = template.content.cloneNode(true)
-  //       if(data.online == true){
-  //         serverBlock.querySelector("img").src = data.icon
-  //         serverBlock.querySelector("span.IP").textContent = data.hostname +"(" + data.ip + ")"
-  //         serverBlock.querySelector("p").innerHTML = data.motd.html == undefined ? "" : data.motd.html
-  //         serverBlock.querySelector("span.online").textContent = data.players.online + "/" + data.players.max
-  //         serverBlock.querySelector("span.isOnline").textContent = data.online == true ? "online" : "offline"
-  //       }
-  //       else{
-  //         serverBlock.querySelector("img").src = "offline.bmp"
-  //         serverBlock.querySelector("span.IP").textContent = data.hostname +"(" + data.ip + ")"
-  //         //serverBlock.querySelector("p").innerHTML = data.motd.html == undefined ? "" : data.motd.html
-  //         //serverBlock.querySelector("span.online").textContent = data.players.online + "/" + data.players.max
-  //         serverBlock.querySelector("span.isOnline").textContent = data.online == true ? "online" : "offline"
-        
-  //       }
-  //       document.querySelector("section#Servers").prepend(serverBlock)
-  //      })
-
-  //   }
-  // })
-
-  setInterval(()=>{
-    let a = getCookie("cart") === undefined ? "{}" : getCookie("cart")
-
-    let cart = JSON.parse(a)
-    //basket = JSON.parse(getCookie("cart"))
-    if(JSON.stringify(cart) != JSON.stringify(basket)){
+        drawCards(deck, 1).then(cards =>{
+          console.log(cards)
+        })
+      })
       
-      basket = cart
-      getCartTotal()
-      if(IsBasketOpened)
-        Update(false)
-      else{
-        onStart()
-      }
-      console.log("Nice!")
-    }
-    else{
-      console.log("OK!")
-    }
-
-
-  }, 5000)
-
-
-  let a = getCookie("cart") === undefined ? "{}" : getCookie("cart")
-
-    let cart = JSON.parse(a)
-
-  getCartTotal()
-
-
-  onStart()
+    })
 
 
   document.querySelector("input#themeSwitch")
@@ -348,7 +141,10 @@ document.addEventListener("DOMContentLoaded", ()=>{
       if(darkTheme) document.querySelector("#max_div").classList.add("theme-dark")
       else document.querySelector("#max_div").classList.remove("theme-dark")
 
-      localStorage.setItem("darkTheme", darkTheme)
+      setTimeout(()=>{
+        localStorage.setItem("darkTheme", darkTheme)
+      }, 2000)
+      
   })
 
 
